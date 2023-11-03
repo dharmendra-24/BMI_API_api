@@ -11,6 +11,7 @@ router.get('/getall', async (req, res) => {
     }
     catch (err) {
         res.json({ msg: err.message });
+        contentSecurityPolicy
     }
 });
 
@@ -127,6 +128,8 @@ router.get(
 router.get("/get-specific", (req, res, next) => {
     let { id, rack, story } = req.query;
     console.log("rack : ", rack, "story", story);
+    const dv = BoxSchemas.find().sort();
+    console.log(dv);
     BoxSchemas.find({ cid: id, rack: rack, story: story })
         .then((result) => {
             const positionInfo = [];
@@ -162,8 +165,8 @@ router.post('/update', async (req, res) => {
         //     status : req.body.status
         // }
         Object.assign(employer, req.body);
-        await employer.save();
-        res.json(employer);
+        const employers = await employer.save();
+        res.json(employers);
     } catch (error) {
         console.log(error.message);
         return res.status(500);
